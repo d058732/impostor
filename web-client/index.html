@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/vue-material/dist/vue-material.min.css">
     <link rel="stylesheet" href="https://unpkg.com/vue-material/dist/theme/default.css">
     <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://unpkg.com/vue-material"></script>
     <style>
         .eliminated {
@@ -25,6 +26,7 @@
 
 <body>
     <div id="app">
+        <router-view></router-view>
     </div>
 
     <script>
@@ -45,8 +47,8 @@
         const baseUrl = `${protocol}://${location.host}/games`
 
         let socket
-        new Vue({
-            el: '#app',
+
+        const App = {
             template: `
                 <md-app>
                     <md-app-content>
@@ -243,7 +245,15 @@
                     this.showDialog = true
                 }
             }
-        })
+        }
+
+        const Game = {
+            template: '<div>game</div>'
+        }
+
+        const routes = [{ path: '/', component: App }, { path: '/:gameId', component: Game }]
+        const router = new VueRouter({ routes })
+        new Vue({ router }).$mount('#app')
     </script>
 </body>
 
